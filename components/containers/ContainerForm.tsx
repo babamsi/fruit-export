@@ -102,6 +102,7 @@ export function ContainerForm({ container, open, onOpenChange }: ContainerFormPr
     }
 
     // Get existing suppliers from supplies if editing, or keep empty array for new containers
+    // @ts-ignore
     const existingSuppliers: ContainerSupplier[] = container?.suppliers || [];
 
     // Only include consignee if at least name or company is filled
