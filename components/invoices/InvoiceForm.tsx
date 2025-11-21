@@ -128,7 +128,7 @@ export function InvoiceForm({ supplierId: initialSupplierId, open, onOpenChange 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto w-[95vw] sm:w-full">
         <DialogHeader>
           <DialogTitle>Create Payment Invoice</DialogTitle>
           <DialogDescription>
@@ -137,7 +137,7 @@ export function InvoiceForm({ supplierId: initialSupplierId, open, onOpenChange 
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="supplierId">Supplier *</Label>
               <Select
@@ -146,13 +146,18 @@ export function InvoiceForm({ supplierId: initialSupplierId, open, onOpenChange 
                   setFormData((prev) => ({ ...prev, supplierId: value }))
                 }
               >
-                <SelectTrigger>
+                <SelectTrigger className="w-full" id="supplier-select">
                   <SelectValue placeholder="Select a supplier" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent 
+                  className="w-[var(--radix-select-trigger-width)] max-w-[var(--radix-select-trigger-width)]"
+                  position="popper"
+                >
                   {suppliers.map((supplier) => (
                     <SelectItem key={supplier.id} value={supplier.id}>
-                      {supplier.name} (Balance: {formatCurrency(supplier.balance)})
+                      <span className="truncate block max-w-full">
+                        {supplier.name} (Balance: {formatCurrency(supplier.balance)})
+                      </span>
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -167,10 +172,13 @@ export function InvoiceForm({ supplierId: initialSupplierId, open, onOpenChange 
                   setFormData((prev) => ({ ...prev, paymentMethod: value }))
                 }
               >
-                <SelectTrigger>
+                <SelectTrigger className="w-full">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent 
+                  className="w-[var(--radix-select-trigger-width)] max-w-[var(--radix-select-trigger-width)]"
+                  position="popper"
+                >
                   <SelectItem value="Bank Transfer">Bank Transfer</SelectItem>
                   <SelectItem value="Check">Check</SelectItem>
                   <SelectItem value="Wire Transfer">Wire Transfer</SelectItem>
@@ -181,7 +189,7 @@ export function InvoiceForm({ supplierId: initialSupplierId, open, onOpenChange 
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="amount">Payment Amount (USD) *</Label>
               <Input
@@ -193,6 +201,7 @@ export function InvoiceForm({ supplierId: initialSupplierId, open, onOpenChange 
                 onChange={(e) =>
                   setFormData((prev) => ({ ...prev, amount: e.target.value }))
                 }
+                className="w-full"
                 required
               />
             </div>
@@ -206,6 +215,7 @@ export function InvoiceForm({ supplierId: initialSupplierId, open, onOpenChange 
                 onChange={(e) =>
                   setFormData((prev) => ({ ...prev, date: e.target.value }))
                 }
+                className="w-full"
                 required
               />
             </div>
@@ -217,7 +227,7 @@ export function InvoiceForm({ supplierId: initialSupplierId, open, onOpenChange 
                 <CardTitle>Supplier Balance</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-3 gap-4 text-sm">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
                   <div>
                     <div className="text-muted-foreground">Total Owed</div>
                     <div className="text-lg font-semibold">
